@@ -15,7 +15,8 @@
  */
 package com.walnutit.email.configuration;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Properties;
 
@@ -25,13 +26,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import com.walnutit.email.application.MailSenderImpl;
+import com.walnutit.email.application.MailSenderLogger;
+import com.walnutit.email.domain.contactform.ContactFormSmtpConfiguration;
 
 /**
  * @author Daniel Krentzlin
  *
  */
-
 @SpringBootTest(properties = { "spring.mail.username=testUsername",
 		"spring.mail.password=testPassword",
 		"spring.mail.host=testHost", "spring.mail.port=587",
@@ -39,10 +40,13 @@ import com.walnutit.email.application.MailSenderImpl;
 		"spring.mail.properties.auth=true",
 		"spring.mail.properties.starttls.enable=true",
 		"spring.mail.properties.debug=true" })
-class MailConfigurationTest {
+class ConfigurationLoggerTest {
 
 	@Autowired
-	MailSenderImpl mailConfiguration;
+	MailSenderLogger configurationLogger;
+
+	@Autowired
+	ContactFormSmtpConfiguration mailConfigurationLogger;
 
 	JavaMailSenderImpl expectedJavaMailSender;
 
@@ -50,7 +54,7 @@ class MailConfigurationTest {
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 
 		expectedJavaMailSender = new JavaMailSenderImpl();
 		expectedJavaMailSender.setHost("testHost");
@@ -64,64 +68,46 @@ class MailConfigurationTest {
 		props.put("mail.smtp.auth", true);
 		props.put("mail.smtp.starttls.enable", true);
 		props.put("mail.debug", true);
-		// expectedJavaMailSender.setJavaMailProperties(props);
+	}
 
+	@Test
+	final void toStringTest() {
+		// given
+		String expectedOutput = "MailSenderLogger [userName="
+				+ mailConfigurationLogger.getUserName()
+				+ ", password="
+				+ mailConfigurationLogger.getPassword() + ", host="
+				+ mailConfigurationLogger.getHost() + ", port="
+				+ mailConfigurationLogger.getPort() + ", protocol="
+				+ mailConfigurationLogger.getProtocol() + ", auth="
+				+ mailConfigurationLogger.isAuth() + ", starttls="
+				+ mailConfigurationLogger.isStarttls() + ", debug="
+				+ mailConfigurationLogger.isDebug() + "]";
+
+		// when
+		String actualOutput = configurationLogger.toString();
+
+		// then
+		assertEquals(expectedOutput, actualOutput);
 	}
 
 	/**
 	 * Test method for
 	 * {@link com.walnutit.email.application.MailSenderImpl#getJavaMailSender()}.
-	 * @throws Exception 
 	 */
 	@Test
-	final void testGetJavaMailSender() throws Exception {
+	final void testGetJavaMailSender() {
 		// given
 
 		// when
 
-		JavaMailSenderImpl actualJavaMailSender = (JavaMailSenderImpl) mailConfiguration
+		JavaMailSenderImpl actualJavaMailSender = (JavaMailSenderImpl) configurationLogger
 				.getJavaMailSender();
 
-		String expectedProtocol = (String) expectedJavaMailSender
-				.getJavaMailProperties()
-				.get("mail.transport.protocol");
-
-		String actualProtocol = (String) actualJavaMailSender
-				.getJavaMailProperties()
-				.get("mail.transport.protocol");
-
-		Object authExpected = expectedJavaMailSender
-				.getJavaMailProperties().get("mail.smtp.auth");
-		Object authActual = actualJavaMailSender
-				.getJavaMailProperties().get("mail.smtp.auth");
-
-		Object debugExpected = expectedJavaMailSender
-				.getJavaMailProperties().get("mail.debug");
-		Object debugActual = actualJavaMailSender
-				.getJavaMailProperties().get("mail.debug");
-
-		Object starttlsExpected = expectedJavaMailSender
-				.getJavaMailProperties()
-				.get("mail.smtp.starttls.enable");
-		Object starttlsActual = actualJavaMailSender
-				.getJavaMailProperties()
-				.get("mail.smtp.starttls.enable");
-
 		// then
-		assertEquals(expectedJavaMailSender.getUsername(),
-				actualJavaMailSender.getUsername());
-		assertEquals(expectedJavaMailSender.getPassword(),
-				actualJavaMailSender.getPassword());
-		assertEquals(expectedJavaMailSender.getHost(),
-				actualJavaMailSender.getHost());
-		assertEquals(expectedJavaMailSender.getPort(),
-				actualJavaMailSender.getPort());
 
-		assertEquals(expectedProtocol, actualProtocol);
-		assertEquals(authExpected, authActual);
-		assertEquals(debugExpected, debugActual);
-		assertEquals(starttlsExpected, starttlsActual);
+		assertThat(actualJavaMailSender).usingRecursiveComparison()
+				.isEqualTo(expectedJavaMailSender);
 
 	}
-
 }

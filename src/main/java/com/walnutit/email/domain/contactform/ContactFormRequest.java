@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.walnutit.email.domain;
+package com.walnutit.email.domain.contactform;
 
 /**
  * @author Daniel Krentzlin
  *
  */
-public class ClientRequest {
+public class ContactFormRequest {
 
 	private String name;
 	private String email;
@@ -28,7 +28,7 @@ public class ClientRequest {
 	private String url;
 	private String request;
 
-	public ClientRequest(String name, String email, String phone,
+	public ContactFormRequest(String name, String email, String phone,
 			String company, String url, String request) {
 		super();
 		this.name = name;
@@ -89,7 +89,7 @@ public class ClientRequest {
 
 	@Override
 	public String toString() {
-		return "ClientRequest [\n\tname=" + name + ",\n\temail=" + email
+		return "NewsLetterRequest [\n\tname=" + name + ",\n\temail=" + email
 				+ ",\n\tphone=" + phone + ",\n\tcompany=" + company
 				+ ",\n\turl=" + url + ",\n\trequest=" + request + "\n]";
 	}

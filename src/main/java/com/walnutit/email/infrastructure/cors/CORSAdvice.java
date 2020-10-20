@@ -1,4 +1,5 @@
-package com.walnutit.email.cors;
+package com.walnutit.email.infrastructure.cors;
+import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Copyright 2020 - 2020 the original author or authors.
  *
@@ -27,16 +28,19 @@ import org.springframework.web.filter.CorsFilter;
  */
 @Configuration
 public class CORSAdvice {
-
+	
+	@Autowired
+	CorsParameter corsParameter;
+	
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**", config);
+        config.setAllowCredentials(corsParameter.isAllowCredentials());
+        config.addAllowedOrigin(corsParameter.getAllowedOrigins());
+        config.addAllowedHeader(corsParameter.getAllowedHeader());
+        config.addAllowedMethod(corsParameter.getAllowedMethods());
+        source.registerCorsConfiguration(corsParameter.getCorsConfigurationSource(), config);
         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<CorsFilter>(new CorsFilter(source));
         bean.setOrder(0);
         return bean;

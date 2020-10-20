@@ -1,0 +1,112 @@
+{"properties": [
+  {
+    "name": "management.endpoints.web.cors.cors-configuration-source",
+    "type": "java.lang.String",
+    "description": "A description for 'management.endpoints.web.cors.cors-configuration-source'"
+  },
+  {
+    "name": "walnut.contactform.smtp.username",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.contactform.smtp.username'"
+  },
+  {
+    "name": "walnut.contactform.smtp.password",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.contactform.smtp.password'"
+  },
+  {
+    "name": "walnut.contactform.smtp.host",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.contactform.smtp.host'"
+  },
+  {
+    "name": "walnut.contactform.smtp.port",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.contactform.smtp.port'"
+  },
+  {
+    "name": "walnut.contactform.smtp.protocol",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.contactform.smtp.protocol'"
+  },
+  {
+    "name": "walnut.contactform.smtp.properties.auth",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.contactform.smtp.properties.auth'"
+  },
+  {
+    "name": "walnut.contactform.smtp.properties.starttls.enable",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.contactform.smtp.properties.starttls.enable'"
+  },
+  {
+    "name": "walnut.contactform.smtp.properties.debug",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.contactform.smtp.properties.debug'"
+  },
+  {
+    "name": "walnut.contactform.email.request_receiver",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.contactform.email.request_receiver'"
+  },
+  {
+    "name": "walnut.contactform.email.properties.request_subject",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.contactform.email.properties.request_subject'"
+  },
+  {
+    "name": "walnut.contactform.email.request_subject",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.contactform.email.request_subject'"
+  },
+  {
+    "name": "walnut.newsletter.smtp.username",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.newsletter.smtp.username'"
+  },
+  {
+    "name": "walnut.newsletter.smtp.password",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.newsletter.smtp.password'"
+  },
+  {
+    "name": "walnut.newsletter.smtp.host",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.newsletter.smtp.host'"
+  },
+  {
+    "name": "walnut.newsletter.smtp.port",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.newsletter.smtp.port'"
+  },
+  {
+    "name": "walnut.newsletter.smtp.protocol",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.newsletter.smtp.protocol'"
+  },
+  {
+    "name": "walnut.newsletter.smtp.properties.auth",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.newsletter.smtp.properties.auth'"
+  },
+  {
+    "name": "walnut.newsletter.smtp.properties.starttls.enable",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.newsletter.smtp.properties.starttls.enable'"
+  },
+  {
+    "name": "walnut.newsletter.smtp.properties.debug",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.newsletter.smtp.properties.debug'"
+  },
+  {
+    "name": "walnut.newsletter.email.request_receiver",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.newsletter.email.request_receiver'"
+  },
+  {
+    "name": "walnut.newsletter.email.request_subject",
+    "type": "java.lang.String",
+    "description": "A description for 'walnut.newsletter.email.request_subject'"
+  }
+]}
