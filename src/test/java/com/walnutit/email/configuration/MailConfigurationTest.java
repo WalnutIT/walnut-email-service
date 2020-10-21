@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import com.walnutit.email.application.MailSenderImpl;
+import com.walnutit.email.application.mail.MailSenderImpl;
 
 /**
  * @author Daniel Krentzlin
@@ -64,7 +64,6 @@ class MailConfigurationTest {
 		props.put("mail.smtp.auth", true);
 		props.put("mail.smtp.starttls.enable", true);
 		props.put("mail.debug", true);
-		// expectedJavaMailSender.setJavaMailProperties(props);
 
 	}
 

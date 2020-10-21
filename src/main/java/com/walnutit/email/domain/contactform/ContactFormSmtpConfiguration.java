@@ -15,7 +15,9 @@
  */
 package com.walnutit.email.domain.contactform;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.walnutit.email.domain.SmtpConfiguration;
@@ -25,6 +27,8 @@ import com.walnutit.email.domain.SmtpConfiguration;
  *
  */
 @Component
+@Qualifier("contactform")
+@Primary
 public class ContactFormSmtpConfiguration
 		implements SmtpConfiguration {
 

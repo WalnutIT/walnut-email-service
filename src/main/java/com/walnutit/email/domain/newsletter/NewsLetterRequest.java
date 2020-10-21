@@ -15,19 +15,27 @@
  */
 package com.walnutit.email.domain.newsletter;
 
+import java.util.Locale;
+
+import org.springframework.stereotype.Component;
+
 /**
  * @author Daniel Krentzlin
  *
  */
+@Component
 public class NewsLetterRequest {
 
 	private String email;
 	private boolean acceptedPrivacyPolicy;
+	private Locale locale;
 
-	public NewsLetterRequest(String email, boolean acceptedPrivacyPolicy) {
+	public NewsLetterRequest(String email,
+			boolean acceptedPrivacyPolicy, String locale) {
 		super();
 		this.email = email;
 		this.acceptedPrivacyPolicy = acceptedPrivacyPolicy;
+		this.setLocale(locale);
 	}
 
 	public NewsLetterRequest() {
@@ -40,13 +48,6 @@ public class NewsLetterRequest {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	@Override
-	public String toString() {
-		return "NewsLetterRequest [\n\temail=" + email + "\n "
-				+ "\taccepted privacy policy=" + acceptedPrivacyPolicy
-				+ "]";
 	}
 
 	/**
@@ -62,6 +63,20 @@ public class NewsLetterRequest {
 	public void setAcceptedPrivacyPolicy(
 			boolean acceptedPrivacyPolicy) {
 		this.acceptedPrivacyPolicy = acceptedPrivacyPolicy;
+	}
+
+	/**
+	 * @return the locale
+	 */
+	public Locale getLocale() {
+		return locale;
+	}
+
+	/**
+	 * @param locale the locale to set
+	 */
+	public void setLocale(String locale) {
+		this.locale = new Locale(locale);
 	}
 
 }

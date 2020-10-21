@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import com.walnutit.email.application.MailSenderLogger;
+import com.walnutit.email.application.mail.MailSenderLogger;
 import com.walnutit.email.domain.contactform.ContactFormSmtpConfiguration;
 
 /**

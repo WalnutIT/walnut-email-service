@@ -18,23 +18,25 @@ package com.walnutit.email.infrastructure.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.walnutit.email.application.MailSenderLogger;
+import com.walnutit.email.domain.SmtpConfiguration;
 import com.walnutit.email.domain.contactform.ContactFormEmailConfiguration;
 import com.walnutit.email.domain.contactform.ContactFormRequest;
-import com.walnutit.email.domain.contactform.ContactFormSmtpConfiguration;
+import com.walnutit.email.domain.contactform.messages.ContactFormCompanyMessage;
+import com.walnutit.email.domain.contactform.messages.ContactFormCustomerMessage;
 
 /**
  * @author Daniel Krentzlin
  *
  */
 @RestController
-public class ContactFormController {
+public class ContactFormController extends Controller {
 
 	public static final Logger LOG = LoggerFactory
 			.getLogger(ContactFormController.class);
@@ -43,25 +45,47 @@ public class ContactFormController {
 	public ContactFormEmailConfiguration contactFormEmailConfiguration;
 
 	@Autowired
-	public ContactFormSmtpConfiguration conntactFormSmptConfiguration;
+	@Qualifier("contactform")
+	public SmtpConfiguration conntactFormSmptConfiguration;
+
+	@Autowired
+	public ContactFormCompanyMessage contactFormCompanyMessage;
+
+	@Autowired
+	public ContactFormCustomerMessage contactFormCustomerMessage;
 
 	@PostMapping("/contactform")
 	public HttpStatus sendContactFormNotfication(
 			@RequestBody ContactFormRequest contactFormRequest) {
 
-		MailSenderLogger logger = new MailSenderLogger(
-				conntactFormSmptConfiguration);
+		contactFormCompanyMessage
+				.setContactFormRequest(contactFormRequest);
+		contactFormCustomerMessage
+				.setContactFormRequest(contactFormRequest);
 
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom(contactFormEmailConfiguration.getUsername());
-		message.setTo(contactFormEmailConfiguration.getReceiver());
-		// message.setCc(contactFormRequest.getEmail());
-		message.setSubject(
+		SimpleMailMessage companyMessage = new SimpleMailMessage();
+		companyMessage
+				.setFrom(contactFormEmailConfiguration.getUsername());
+		companyMessage
+				.setTo(contactFormEmailConfiguration.getReceiver());
+		companyMessage.setSubject(
 				contactFormEmailConfiguration.getSubject());
-		message.setText(contactFormRequest.toString());
+		companyMessage.setText(
+				contactFormCompanyMessage.getMessageForCompany());
+
+		SimpleMailMessage customerMessage = new SimpleMailMessage();
+		customerMessage
+				.setFrom(contactFormEmailConfiguration.getUsername());
+		customerMessage
+				.setTo(contactFormRequest.getEmail());
+		customerMessage.setSubject(
+				contactFormEmailConfiguration.getSubject());
+		customerMessage.setText(
+				contactFormCustomerMessage.getMessageForCustomer());
 
 		try {
-			logger.getJavaMailSender().send(message);
+			mailSender.getJavaMailSender().send(companyMessage);
+			mailSender.getJavaMailSender().send(customerMessage);
 			return HttpStatus.OK;
 		} catch (Exception me) {
 			LOG.error("Couldn't send message: ", me);

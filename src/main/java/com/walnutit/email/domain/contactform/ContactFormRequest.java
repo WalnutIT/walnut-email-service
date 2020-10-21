@@ -15,6 +15,8 @@
  */
 package com.walnutit.email.domain.contactform;
 
+import java.util.Locale;
+
 /**
  * @author Daniel Krentzlin
  *
@@ -27,9 +29,11 @@ public class ContactFormRequest {
 	private String company;
 	private String url;
 	private String request;
+	private Locale locale;
 
 	public ContactFormRequest(String name, String email, String phone,
-			String company, String url, String request) {
+			String company, String url, String request,
+			String locale) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -37,6 +41,7 @@ public class ContactFormRequest {
 		this.company = company;
 		this.url = url;
 		this.request = request;
+		this.locale = new Locale(locale);
 	}
 
 	public String getName() {
@@ -87,13 +92,18 @@ public class ContactFormRequest {
 		this.request = request;
 	}
 
-	@Override
-	public String toString() {
-		return "NewsLetterRequest [\n\tname=" + name + ",\n\temail=" + email
-				+ ",\n\tphone=" + phone + ",\n\tcompany=" + company
-				+ ",\n\turl=" + url + ",\n\trequest=" + request + "\n]";
+	/**
+	 * @return the locale
+	 */
+	public Locale getLocale() {
+		return locale;
 	}
 
-	
-	
+	/**
+	 * @param locale the locale to set
+	 */
+	public void setLocale(String locale) {
+		this.locale = new Locale(locale);
+	}
+
 }

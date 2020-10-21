@@ -13,17 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.walnutit.email.application;
+package com.walnutit.email.domain;
 
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.walnutit.email.application.language.I18N;
 
 /**
  * @author Daniel Krentzlin
  *
  */
-public interface MailSender {
-	
-	//@Bean
-    public JavaMailSender getJavaMailSender() throws Exception;
+public abstract class CompanyMessage {
+
+	@Autowired
+	I18N i18N;
+
+	public abstract String getMessageForCompany();
 
 }

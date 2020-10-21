@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.walnutit.email.application;
+package com.walnutit.email.application.mail;
 
 import java.util.Objects;
 import java.util.Properties;

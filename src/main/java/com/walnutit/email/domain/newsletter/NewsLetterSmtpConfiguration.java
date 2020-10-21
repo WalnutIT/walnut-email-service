@@ -15,6 +15,7 @@
  */
 package com.walnutit.email.domain.newsletter;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,7 @@ import com.walnutit.email.domain.SmtpConfiguration;
  *
  */
 @Component
+@Qualifier("newsletter")
 public class NewsLetterSmtpConfiguration
 		implements SmtpConfiguration {
 

@@ -18,23 +18,25 @@ package com.walnutit.email.infrastructure.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.walnutit.email.application.MailSenderLogger;
+import com.walnutit.email.domain.SmtpConfiguration;
 import com.walnutit.email.domain.newsletter.NewsLetterEmailConfiguration;
 import com.walnutit.email.domain.newsletter.NewsLetterRequest;
-import com.walnutit.email.domain.newsletter.NewsLetterSmtpConfiguration;
+import com.walnutit.email.domain.newsletter.messages.NewsletterCompanyMessage;
+import com.walnutit.email.domain.newsletter.messages.NewsletterCustomerMessage;
 
 /**
  * @author Daniel Krentzlin
  *
  */
 @RestController
-public class NewsLetterController {
+public class NewsLetterController extends Controller {
 	public static final Logger LOG = LoggerFactory
 			.getLogger(ContactFormController.class);
 
@@ -42,24 +44,46 @@ public class NewsLetterController {
 	public NewsLetterEmailConfiguration newsLetterEmailConfiguration;
 
 	@Autowired
-	public NewsLetterSmtpConfiguration newsLetterSmtpConfiguration;
+	@Qualifier("newsletter")
+	public SmtpConfiguration newsLetterSmtpConfiguration;
+
+	@Autowired
+	public NewsletterCompanyMessage newsLetterCompanyMessage;
+
+	@Autowired
+	public NewsletterCustomerMessage newsLetterCustomerMessage;
 
 	@PostMapping("/newsletter")
 	public HttpStatus sendNewsLetterNotfication(
 			@RequestBody NewsLetterRequest newsLetterRequest) {
 
-		MailSenderLogger logger = new MailSenderLogger(
-				newsLetterSmtpConfiguration);
+		newsLetterCompanyMessage
+				.setNewsLetterRequest(newsLetterRequest);
+		newsLetterCustomerMessage
+				.setNewsLetterRequest(newsLetterRequest);
 
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom(newsLetterEmailConfiguration.getUsername());
-		message.setTo(newsLetterEmailConfiguration.getReceiver());
-		// message.setCc(contactFormRequest.getEmail());
-		message.setSubject(newsLetterEmailConfiguration.getSubject());
-		message.setText(newsLetterRequest.toString());
+		SimpleMailMessage messageCompany = new SimpleMailMessage();
+		messageCompany
+				.setFrom(newsLetterEmailConfiguration.getUsername());
+		messageCompany
+				.setTo(newsLetterEmailConfiguration.getReceiver());
+		messageCompany.setSubject(
+				newsLetterEmailConfiguration.getSubject());
+		messageCompany.setText(
+				newsLetterCompanyMessage.getMessageForCompany());
+
+		SimpleMailMessage messageCustomer = new SimpleMailMessage();
+		messageCustomer
+				.setFrom(newsLetterEmailConfiguration.getUsername());
+		messageCustomer.setTo(newsLetterRequest.getEmail());
+		messageCustomer.setSubject(
+				newsLetterEmailConfiguration.getSubject());
+		messageCustomer.setText(
+				newsLetterCustomerMessage.getMessageForCustomer());
 
 		try {
-			logger.getJavaMailSender().send(message);
+			mailSender.getJavaMailSender().send(messageCompany);
+			mailSender.getJavaMailSender().send(messageCustomer);
 			return HttpStatus.OK;
 		} catch (Exception me) {
 			LOG.error("Couldn't send message: ", me);

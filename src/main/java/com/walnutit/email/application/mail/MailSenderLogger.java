@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.walnutit.email.application;
+package com.walnutit.email.application.mail;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
 import com.walnutit.email.domain.SmtpConfiguration;
 
@@ -26,11 +26,11 @@ import com.walnutit.email.domain.SmtpConfiguration;
  * @author Daniel Krentzlin
  *
  */
-
+@Component
 public class MailSenderLogger implements MailSender {
 
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(MailSenderImpl.class);
+			.getLogger(MailSenderLogger.class);
 
 	public MailSenderLogger(SmtpConfiguration smptConfiguration) {
 		super();
@@ -39,7 +39,7 @@ public class MailSenderLogger implements MailSender {
 
 	private SmtpConfiguration smptConfiguration;
 
-	@Bean
+	
 	public JavaMailSender getJavaMailSender() {
 
 		MailSenderImpl mailConfiguration = new MailSenderImpl(
