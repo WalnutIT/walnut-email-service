@@ -3,12 +3,11 @@ stages:
  
 
 build email service:
+  image: maven:latest
   stage: build
-  image: openjdk:11-jdk
-  script:
-    - mvnw compile
+  script: "mvn package -B"
   artifacts:
     paths:
-      - ./target
+      - target/*.jar
      
   
