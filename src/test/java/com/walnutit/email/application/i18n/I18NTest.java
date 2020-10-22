@@ -38,11 +38,11 @@ class I18NTest {
 	@Test
 	final void testWithArgs() {
 		// Given
-		String expectedMessage = "Sehr geehrte/r Daniel Krentzlin,";
+		String expectedMessage = "Sehr geehrte/r Daniel Krentzlin,\n\n";
 		Object[] args = new Object[] {"Daniel Krentzlin"};
 		
 		// When
-		String actualMessage = i18N.getMessageResource().getMessage("contactform.salutation", args, new Locale("de"));
+		String actualMessage = i18N.getMessageResource().getMessage("contactform.customer.salutation", args, new Locale("de"));
 		
 		// Then
 		assertEquals(expectedMessage, actualMessage);
@@ -51,10 +51,10 @@ class I18NTest {
 	@Test
 	final void testWithoutArgs() {
 		// Given
-		String expectedMessage = "Vielen herzlichen Dank!";
+		String expectedMessage = "Vielen herzlichen Dank!\n\n";
 		
 		// When
-		String actualMessage = i18N.getMessageResource().getMessage("newsletter.salutation", null, new Locale("de"));
+		String actualMessage = i18N.getMessageResource().getMessage("newsletter.customer.salutation", null, new Locale("de"));
 		
 		// Then
 		assertEquals(expectedMessage, actualMessage);
