@@ -1,0 +1,14 @@
+stages:
+  - build
+ 
+
+build email service:
+  stage: build
+  image: openjdk:11-jdk
+  script:
+    - ./mvnw compile
+  artifacts:
+    paths:
+      - ./target
+     
+  
