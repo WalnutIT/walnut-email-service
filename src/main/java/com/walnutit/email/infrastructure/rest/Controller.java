@@ -16,17 +16,48 @@
 package com.walnutit.email.infrastructure.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 
 import com.walnutit.email.application.mail.MailSenderLogger;
-
+import com.walnutit.email.domain.CompanyMessage;
+import com.walnutit.email.domain.CustomerMessage;
+import com.walnutit.email.domain.DomainEmailConfiguration;
 
 /**
  * @author Daniel Krentzlin
  *
  */
 public abstract class Controller {
-	
+
 	@Autowired
 	MailSenderLogger mailSender;
+
+	public void sendToCompany(CompanyMessage companyMessage,
+			DomainEmailConfiguration emailConfiguration)
+			throws Exception {
+		SimpleMailMessage companyMailMessage = new SimpleMailMessage();
+		companyMailMessage.setFrom(emailConfiguration.getUsername());
+		companyMailMessage.setTo(emailConfiguration.getReceiver());
+		companyMailMessage
+				.setSubject(emailConfiguration.getSubject());
+		companyMailMessage
+				.setText(companyMessage.getMessageForCompany());
+
+		mailSender.getJavaMailSender().send(companyMailMessage);
+	}
+
+	public void sendToCustomer(CustomerMessage customerMessage,
+			DomainEmailConfiguration emailConfiguration,
+			String customerEmail) throws Exception {
+		SimpleMailMessage companyMailMessage = new SimpleMailMessage();
+		companyMailMessage.setFrom(emailConfiguration.getUsername());
+		companyMailMessage.setTo(customerEmail);
+		companyMailMessage
+				.setSubject(emailConfiguration.getSubject());
+		companyMailMessage
+				.setText(customerMessage.getMessageForCustomer());
+
+		mailSender.getJavaMailSender().send(companyMailMessage);
+	}
 
 }

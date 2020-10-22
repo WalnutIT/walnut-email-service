@@ -15,6 +15,8 @@
  */
 package com.walnutit.email.application.language;
 
+import java.util.Locale;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
@@ -30,6 +32,7 @@ public class I18N {
 		ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
 
 		messageResource.setBasename("classpath:i18n/message");
+		messageResource.setDefaultLocale(new Locale("en"));
 		return messageResource;
 	}
 

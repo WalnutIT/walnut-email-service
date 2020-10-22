@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.walnutit.email.domain.SmtpConfiguration;
@@ -31,11 +31,15 @@ import com.walnutit.email.domain.contactform.ContactFormRequest;
 import com.walnutit.email.domain.contactform.messages.ContactFormCompanyMessage;
 import com.walnutit.email.domain.contactform.messages.ContactFormCustomerMessage;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 /**
  * @author Daniel Krentzlin
  *
  */
 @RestController
+@RequestMapping("/api")
+@Tag(name = "contactform", description = "the contact form api")
 public class ContactFormController extends Controller {
 
 	public static final Logger LOG = LoggerFactory
@@ -63,34 +67,16 @@ public class ContactFormController extends Controller {
 		contactFormCustomerMessage
 				.setContactFormRequest(contactFormRequest);
 
-		SimpleMailMessage companyMessage = new SimpleMailMessage();
-		companyMessage
-				.setFrom(contactFormEmailConfiguration.getUsername());
-		companyMessage
-				.setTo(contactFormEmailConfiguration.getReceiver());
-		companyMessage.setSubject(
-				contactFormEmailConfiguration.getSubject());
-		companyMessage.setText(
-				contactFormCompanyMessage.getMessageForCompany());
-
-		SimpleMailMessage customerMessage = new SimpleMailMessage();
-		customerMessage
-				.setFrom(contactFormEmailConfiguration.getUsername());
-		customerMessage
-				.setTo(contactFormRequest.getEmail());
-		customerMessage.setSubject(
-				contactFormEmailConfiguration.getSubject());
-		customerMessage.setText(
-				contactFormCustomerMessage.getMessageForCustomer());
-
 		try {
-			mailSender.getJavaMailSender().send(companyMessage);
-			mailSender.getJavaMailSender().send(customerMessage);
+			sendToCompany(contactFormCompanyMessage,
+					contactFormEmailConfiguration);
+			sendToCustomer(contactFormCustomerMessage,
+					contactFormEmailConfiguration,
+					contactFormRequest.getEmail());
 			return HttpStatus.OK;
-		} catch (Exception me) {
-			LOG.error("Couldn't send message: ", me);
+		} catch (Exception e) {
+			LOG.error("Couldn't send message: ", e);
 			return HttpStatus.INTERNAL_SERVER_ERROR;
-
 		}
 
 	}

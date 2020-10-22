@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.walnutit.email.domain.SmtpConfiguration;
@@ -31,11 +31,15 @@ import com.walnutit.email.domain.newsletter.NewsLetterRequest;
 import com.walnutit.email.domain.newsletter.messages.NewsletterCompanyMessage;
 import com.walnutit.email.domain.newsletter.messages.NewsletterCustomerMessage;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 /**
  * @author Daniel Krentzlin
  *
  */
 @RestController
+@RequestMapping("/api")
+@Tag(name = "newsletter", description = "the newsletter registration api")
 public class NewsLetterController extends Controller {
 	public static final Logger LOG = LoggerFactory
 			.getLogger(ContactFormController.class);
@@ -62,28 +66,12 @@ public class NewsLetterController extends Controller {
 		newsLetterCustomerMessage
 				.setNewsLetterRequest(newsLetterRequest);
 
-		SimpleMailMessage messageCompany = new SimpleMailMessage();
-		messageCompany
-				.setFrom(newsLetterEmailConfiguration.getUsername());
-		messageCompany
-				.setTo(newsLetterEmailConfiguration.getReceiver());
-		messageCompany.setSubject(
-				newsLetterEmailConfiguration.getSubject());
-		messageCompany.setText(
-				newsLetterCompanyMessage.getMessageForCompany());
-
-		SimpleMailMessage messageCustomer = new SimpleMailMessage();
-		messageCustomer
-				.setFrom(newsLetterEmailConfiguration.getUsername());
-		messageCustomer.setTo(newsLetterRequest.getEmail());
-		messageCustomer.setSubject(
-				newsLetterEmailConfiguration.getSubject());
-		messageCustomer.setText(
-				newsLetterCustomerMessage.getMessageForCustomer());
-
 		try {
-			mailSender.getJavaMailSender().send(messageCompany);
-			mailSender.getJavaMailSender().send(messageCustomer);
+			sendToCompany(newsLetterCompanyMessage,
+					newsLetterEmailConfiguration);
+			sendToCustomer(newsLetterCustomerMessage,
+					newsLetterEmailConfiguration,
+					newsLetterRequest.getEmail());
 			return HttpStatus.OK;
 		} catch (Exception me) {
 			LOG.error("Couldn't send message: ", me);
