@@ -44,7 +44,7 @@ public class NewsletterCustomerMessage extends CustomerMessage {
 	@Override
 	public String getMessageForCustomer() {
 		
-		Locale locale = newsLetterRequest.getLocale();
+		Locale locale = new Locale(newsLetterRequest.getLocale());
 		String email = newsLetterRequest.getEmail();
 		
 		StringBuilder sb = new StringBuilder();

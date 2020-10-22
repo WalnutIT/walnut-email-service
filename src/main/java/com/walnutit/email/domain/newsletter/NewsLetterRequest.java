@@ -15,8 +15,6 @@
  */
 package com.walnutit.email.domain.newsletter;
 
-import java.util.Locale;
-
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,7 +26,7 @@ public class NewsLetterRequest {
 
 	private String email;
 	private boolean acceptedPrivacyPolicy;
-	private Locale locale;
+	private String locale;
 
 	public NewsLetterRequest(String email,
 			boolean acceptedPrivacyPolicy, String locale) {
@@ -68,15 +66,16 @@ public class NewsLetterRequest {
 	/**
 	 * @return the locale
 	 */
-	public Locale getLocale() {
+	public String getLocale() {
 		return locale;
 	}
+	
 
 	/**
 	 * @param locale the locale to set
 	 */
 	public void setLocale(String locale) {
-		this.locale = new Locale(locale);
+		this.locale = locale;
 	}
 
 }

@@ -44,7 +44,7 @@ public class ContactFormCustomerMessage extends CustomerMessage {
 	@Override
 	public String getMessageForCustomer() {
 
-		Locale locale = contactFormRequest.getLocale();
+		Locale locale = new Locale(contactFormRequest.getLocale());
 
 		StringBuilder sb = new StringBuilder();
 

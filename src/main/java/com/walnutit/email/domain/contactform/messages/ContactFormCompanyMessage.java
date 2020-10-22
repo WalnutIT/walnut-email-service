@@ -43,7 +43,7 @@ public class ContactFormCompanyMessage extends CompanyMessage {
 
 	@Override
 	public String getMessageForCompany() {
-		Locale locale = contactFormRequest.getLocale();
+		Locale locale = new Locale(contactFormRequest.getLocale());
 		String name = contactFormRequest.getName();
 		String email = contactFormRequest.getEmail();
 		String phone = contactFormRequest.getPhone();

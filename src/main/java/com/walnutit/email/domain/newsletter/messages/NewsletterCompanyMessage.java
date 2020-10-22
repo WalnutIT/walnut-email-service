@@ -44,7 +44,7 @@ public class NewsletterCompanyMessage extends CompanyMessage {
 	@Override
 	public String getMessageForCompany() {
 
-		Locale locale = newsLetterRequest.getLocale();
+		Locale locale = new Locale(newsLetterRequest.getLocale());
 		String email = newsLetterRequest.getEmail();
 		boolean acceptedPrivacyPolicy = newsLetterRequest
 				.isAcceptedPrivacyPolicy();
