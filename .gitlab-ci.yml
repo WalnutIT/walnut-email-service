@@ -5,6 +5,7 @@ services:
 variables:
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
+  HTTP_PROXY: "http://[127.0.0.1]"
 
 stages:
   - build
