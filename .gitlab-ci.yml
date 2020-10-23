@@ -1,6 +1,6 @@
-image: docker:latest
-services:
-  - docker:19.03.13-dind
+image: docker:19
+#services:
+#  - docker:19.03.13-dind
 
 variables:
   DOCKER_DRIVER: overlay2
