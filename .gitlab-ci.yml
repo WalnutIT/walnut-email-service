@@ -3,6 +3,7 @@ services:
   - docker:19.03.0-dind
 
 variables:
+  MOUNT_POINT: /builds/$CI_PROJECT_PATH/mnt
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
   DOCKER_HOST: tcp://127.0.0.1:2376
@@ -23,6 +24,8 @@ build email service:
 create container:
   stage: package
   script:
+    - mkdir -p "$MOUNT_POINT"
+    - docker run -v "$MOUNT_POINT:/mnt" my-docker-image
     - docker build -t repository.walnut-it.com/walnut-email-service .
     - docker push repository.walnut-it.com/walnut-email-service
      
