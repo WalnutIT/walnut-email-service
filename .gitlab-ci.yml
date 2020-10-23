@@ -6,7 +6,7 @@ variables:
   MOUNT_POINT: /builds/$CI_PROJECT_PATH/mnt
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
-  DOCKER_HOST: tcp://127.0.0.1:2376
+  DOCKER_HOST: tcp://127.0.0.1:2375
 
 stages:
   - build
