@@ -5,7 +5,7 @@ services:
 variables:
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
-  DOCKER_HOST: tcp://docker:2375
+  DOCKER_HOST: tcp://gitlab.walnut-it.com:2375
 
 stages:
   - build
