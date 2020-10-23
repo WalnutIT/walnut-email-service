@@ -22,7 +22,7 @@ build email service:
 create container:
   stage: package
   script:
-    - docker build -t repository.walnut-it.com/walnut-email-service
+    - docker build -t repository.walnut-it.com/walnut-email-service .
     - docker push repository.walnut-it.com/walnut-email-service
      
   
