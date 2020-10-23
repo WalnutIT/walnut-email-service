@@ -1,8 +1,6 @@
-FROM centos
-
-RUN yum install -y java
+FROM openjdk:11-jdk-slim
 
 VOLUME /tmp
-ADD /email-0.0.1-SNAPSHOT.jar walnut_email_service.jar
-RUN sh -c 'touch /walnut_email_service.jar'
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/walnut_email_service.jar"]
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} alnut_email_service.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","walnut_email_service.jar"]
