@@ -1,9 +1,6 @@
 image: docker:19.03.13
 services:
   - docker:19.03.13-dind
-  
-before_script:
-  - docker info
 
 variables:
   DOCKER_DRIVER: overlay2
